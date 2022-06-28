@@ -103,7 +103,7 @@
 % without further effort on your part as the last section in
 % the body of your article BEFORE References or any Appendices.
 
-\numberofauthors{8} %  in this sample file, there are a *total*
+\numberofauthors{1} %  in this sample file, there are a *total*
 % of EIGHT authors. SIX appear on the 'first-page' (for formatting
 % reasons) and the remaining two appear in the \additionalauthors section.
 %
@@ -120,44 +120,16 @@
 %
 % 1st. author
 \alignauthor
-       \name{Ben Trovato}
-       \affaddr{Institute for Clarity\\ 1932 Wallamaloo Lane}
-       \email{trovato@corporation.com}
-% 2nd. author
-\alignauthor
-       \name{G.K.M. Tobin}
-       \affaddr{Institute for Clarity\\ P.O. Box 1212}
-       \email{web@elsewhere.com}
-% 3rd. author
-\alignauthor
-       \name{Lars Th{\o}rv{\"a}ld}
-       \affaddr{The Th{\o}rv{\"a}ld Group\\ 1 Th{\o}rv{\"a}ld Circle}
-       \email{larst@affiliation.org}
-\and  % use '\and' if you need 'another row' of author names
-% 4th. author
-\alignauthor
-       \name{Lawrence P. Leipuner}
-       \affaddr{Brookhaven Laboratories\\ Brookhaven National Lab}
-       \email{lleipuner@researchlabs.org}
-% 5th. author
-\alignauthor
-       \name{Sean Fogarty}
-       \affaddr{NASA Ames Research Center\\ Moffett Field}
-       \email{fogartys@amesres.org}
-% 6th. author
-\alignauthor
-       \name{Charles Palmer}
-       \affaddr{Palmer Research Laboratories\\ 8600 Datapoint Drive}
-       \email{cpalmer@prl.com}
+       \name{Mike Solomon}
+       \affaddr{Hyrule Project}
+       \email{mike120982@gmail.com}
 }
 % There's nothing stopping you putting the seventh, eighth, etc.
 % author on the opening page (as the 'third row') but we ask,
 % for aesthetic reasons that you place these 'additional authors'
 % in the \additional authors block, viz.
-\additionalauthors{Additional authors: John Smith (The Th{\o}rv{\"a}ld Group,
-email: {\texttt{jsmith@affiliation.org}}) and Julius P.~Kumquat
-(The Kumquat Consortium, email: {\texttt{jpkumquat@consortium.net}}).}
-\date{30 July 1999}
+
+\date{28 June 2022}
 % Just remember to make sure that the TOTAL number of authors
 % is the number that will appear on the first page PLUS the
 % number that will appear in the \additionalauthors section.
@@ -165,28 +137,14 @@ email: {\texttt{jsmith@affiliation.org}}) and Julius P.~Kumquat
 \maketitle
 \begin{sloppypar}
 \begin{abstract}
-In this paper, we describe the formatting guidelines for the  Proceedings of the Web Audio Conference 2019. This template has been adapted from the ACM SIG Proceedings Template available at www.acm.org.\footnote{\url{http://www.acm.org/publications/article-templates/proceedings-template.html}} This paper provides a sample of a \LaTeX\ document which conforms,
-somewhat loosely, to the formatting guidelines for
-ACM SIG Proceedings. It is an {\em alternate} style which produces
-a {\em tighter-looking} paper and was designed in response to
-concerns expressed, by authors, over page-budgets.
-It complements the document \textit{Author's (Alternate) Guide to
-Preparing ACM SIG Proceedings Using \LaTeX$2_\epsilon$\ and Bib\TeX}.
-This source file has been written with the intention of being
-compiled under \LaTeX$2_\epsilon$\ and BibTeX.
-
-The developers have tried to include every imaginable sort
-of ``bells and whistles", such as a subtitle, footnotes on
-title, subtitle and authors, as well as in the text, and
-every optional component (e.g. Acknowledgments, Additional
-Authors, Appendices), not to mention examples of
-equations, theorems, tables and figures.
-
-To make best use of this sample document, run it through \LaTeX\
-and BibTeX, and compare this source code with the printed
-output produced by the dvi file. A compiled PDF version
-is available on the web page to help you with the
-`look and feel'.
+The static DOM, or SDOM, approach to building web
+frameworks was first articulated by Phil Freeman[3] as an alternative to the virtual DOM, or VDOM[8], approach used
+by frameworks like ReactJS[11] and Vue[13]. Since then,
+several projects, most notably SolidJS[2], have developed
+SDOM and related ideas into industry-grade web frameworks.
+This paper explores the applicability of the SDOM approach to Web Audio. It starts by defining the main concepts behind SDOM, including functional reactive programming[12] (FRP) and the incremental lambda calculus[1].
+It then discusses some of the unique challenges in porting SDOM to Web Audio, including one-to-many relationships, feedback loops, referential transparency, and live-coding. After proposing solutions to these problems, it
+presents benchmarks of the SDOM-based approach compared to ToneJS, an imperative library for web audio.
 \end{abstract}
 
 
@@ -241,350 +199,411 @@ is available on the web page to help you with the
 %\keywords{ACM proceedings, \LaTeX, text tagging}
 
 \section{Introduction}
-The \textit{proceedings} are the records of a conference.
-ACM seeks to give these conference by-products a uniform,
-high-quality appearance.  To do this, ACM has some rigid
-requirements for the format of the proceedings documents: there
-is a specified format (balanced  double columns), a specified
-set of fonts (Arial or Helvetica and Times Roman) in
-certain specified sizes (for instance, 9 point for body copy),
-a specified live area (18 $\times$ 23.5 cm [7" $\times$ 9.25"]) centered on
-the page, specified size of margins (1.9 cm [0.75"]) top, (2.54 cm [1"]) bottom
-and (1.9 cm [.75"]) left and right; specified column width
-(8.45 cm [3.33"]) and gutter size (.83 cm [.33"]).
+Since the creation of AngularJS[4] in 2010, web frameworks have attempted with varying degrees of success to
+provide a declarative, performant, and reactive approach to
+building web applications. These three goals are each tradeoffs with respect to each other, and frameworks that excel in two must find novel solutions to achieve the third.
+\begin{itemize}
+\item The most declarative and performant structure possible is immutable HTML, which is by definition not reactive.
+\item Declarative and reactive applications use a virtual
+DOM, or ``VDOM'', which has poor performance as
+it requires frequent diffing over large data structures.
+\item Performant and reactive applications tend to funnel
+information to a web app directly from event listeners,
+which is naturally fragmented and resists the declarative style.
+\end{itemize}
 
-The good news is, with only a handful of manual
-settings\footnote{Two of these, the {\texttt{\char'134 numberofauthors}}
-and {\texttt{\char'134 alignauthor}} commands, you have
-already used; another, {\texttt{\char'134 balancecolumns}}, will
-be used in your very last run of \LaTeX\ to ensure
-balanced column heights on the last page.}, the \LaTeX\ document
-class file handles all of this for you.
+In 2018, Phil Freeman, the creator of the PureScript language, proposed a new approach to building web applications that started from the declarative+performant position and attempted to bring its reactivity in line with declarative+reactive frameworks like React and Vue. This approach is known as the static DOM, or SDOM, approach[3].
+The motivating insight behind the SDOM approach is that
+most websites' structures change infrequently, if at all. Freeman writes:
 
-The remainder of this document is concerned with showing, in
-the context of an ``actual'' document, the \LaTeX\ commands
-specifically available for denoting the structure of a
-proceedings paper, rather than with giving rigorous descriptions
-or explanations of such commands.
+\begin{quote}
+Denotationally speaking, the virtual DOM is
+very appealing, but operationally, it is a heavyweight solution for many problems. Every time
+we modify our application state and rerun our
+render function, we allocate a new tree of (virtual) DOM components, and perform a tree diff
+in order to discover what must change in the actual DOM. For many (most?) applications, this
+seems to be overkill. We can optimize the diff algorithm in various ways, but ultimately, the diffing is essentially unnecessary --- for simple changes
+to the model, I know precisely which nodes need
+to be updated. We simply need a way to make
+this obvious in the code.
+\end{quote}
 
-\section{The {\secit Body} of The Paper}
-Typically, the body of a paper is organized
-into a hierarchical structure, with numbered or unnumbered
-headings for sections, subsections, sub-subsections, and even
-smaller sections.  The command \texttt{{\char'134}section} that
-precedes this paragraph is part of such a
-hierarchy.\footnote{This is the second footnote.  It
-starts a series of three footnotes that add nothing
-informational, but just give an idea of how footnotes work
-and look. It is a wordy one, just so you see
-how a longish one plays out.} \LaTeX\ handles the numbering
-and placement of these headings for you, when you use
-the appropriate heading commands around the titles
-of the headings.  If you want a sub-subsection or
-smaller part to be unnumbered in your output, simply append an
-asterisk to the command name.  Examples of both
-numbered and unnumbered headings will appear throughout the
-balance of this sample document.
+He goes on to argue that layout primitives of CSS3 such
+as display, flex and grid make it possible to build a web
+application where all of the nodes are rendered during an
+initial render, and they are displayed and moved based on
+user interactions. Even dynamic structures like lists can, to
+an extent, be modeled by rendering a reasonable upper limit
+of elements and then displaying or hiding them as necessary.
+For applications that fall into this category, he proposes the
+SDOM method.
 
-Because the entire article is contained in
-the \textbf{document} environment, you can indicate the
-start of a new paragraph with a blank line in your
-input file; that is why this sentence forms a separate paragraph.
+\subsection{Defining SDOM}
+The SDOM approach is one where each element of a DOM
+is subscribed to an event listener, and values are broadcast
+to the events in order to change the elements' attributes.
+For example, in the DOM snippet below:
 
-\subsection{Type Changes and {\subsecit Special} Characters}
-We have already seen several typeface changes in this sample.  You
-can indicate italicized words or phrases in your text with
-the command \texttt{{\char'134}textit}; emboldening with the
-command \texttt{{\char'134}textbf}
-and typewriter-style (for instance, for computer code) with
-\texttt{{\char'134}texttt}.  But remember, you do not
-have to indicate typestyle changes when such changes are
-part of the \textit{structural} elements of your
-article; for instance, the heading of this subsection will
-be in a sans serif\footnote{A third footnote, here.
-Let's make this a rather short one to
-see how it looks.} typeface, but that is handled by the
-document class file. Take care with the use
-of\footnote{A fourth, and last, footnote.}
-the curly braces in typeface changes; they mark
-the beginning and end of
-the text that is to be in the different typeface.
+\begin{verbatim}
+<div style="background-color: red;">
+  <h1 id="hi">Hello</h1>
+  <p>The SDOM is:</p>
+  <ul>
+    <li style="margin:3px;">Dynamic</li>
+    <li>Performant</li>
+    <li>Reactive</li>
+  </ul>
+</div>
+\end{verbatim}
 
-You can use whatever symbols, accented characters, or
-non-English characters you need anywhere in your document;
-you can find a complete list of what is
-available in the \textit{\LaTeX\
-User's Guide}\cite{Lamport:LaTeX}.
+The DOM elements (the section, \texttt{h1}, \texttt{p}, \texttt{ul}, and three \texttt{li}-s) never change. Each attribute that is present, such as the
+style of the section and list item or the id of the header,
+is subscribed to an event listener and updates when a new
+event fires.
 
-\subsection{Math Equations}
-You may want to display math equations in three distinct styles:
-inline, numbered or non-numbered display.  Each of
-the three are discussed in the next sections.
+\subsection{SDOM in the declarative / performant /
+reactive trifecta}
 
-\subsubsection{Inline (In-text) Equations}
-A formula that appears in the running text is called an
-inline or in-text formula.  It is produced by the
-\textbf{math} environment, which can be
-invoked with the usual \texttt{{\char'134}begin. . .{\char'134}end}
-construction or with the short form \texttt{\$. . .\$}. You
-can use any of the symbols and structures,
-from $\alpha$ to $\omega$, available in
-\LaTeX\cite{Lamport:LaTeX}; this section will simply show a
-few examples of in-text equations in context. Notice how
-this equation: \begin{math}\lim_{n\rightarrow \infty}x=0\end{math},
-set here in in-line math style, looks slightly different when
-set in display style.  (See next section).
+The next three sections will explore how the SDOM fares
+as a declarative, performant and reactive framework for
+building web apps.
 
-\subsubsection{Display Equations}
-A numbered display equation -- one set off by vertical space
-from the text and centered horizontally -- is produced
-by the \textbf{equation} environment. An unnumbered display
-equation is produced by the \textbf{displaymath} environment.
+\subsubsection{Declarative}
+By keeping the DOM static, one is able to declare its
+content once. This means that no intermediary representations are needed for diffng, which allows one to use what
+is called a final encoding. In final encodings, functions are
+used to immediately transform input into its final representation without passing through an intermediary algebraic
+data type, or ADT. In many cases, this means that a rendering engine can simply accept a string with HTML inside
+of it and use it to set the innerHTML property of a DOM
+Node.
 
-Again, in either environment, you can use any of the symbols
-and structures available in \LaTeX; this section will just
-give a couple of examples of display equations in context.
-First, consider the equation, shown as an inline equation above:
-\begin{equation}\lim_{n\rightarrow \infty}x=0\end{equation}
-Notice how it is formatted somewhat differently in
-the \textbf{displaymath}
-environment.  Now, we'll enter an unnumbered equation:
-\begin{displaymath}\sum_{i=0}^{\infty} x + 1\end{displaymath}
-and follow it with another numbered equation:
-\begin{equation}\sum_{i=0}^{\infty}x_i=\int_{0}^{\pi+2} f\end{equation}
-just to demonstrate \LaTeX's able handling of numbering.
+\subsubsection{Performant}
+Because the declarative content of the SDOM is rendered
+once using a final encoding, it is extremely efficient: it avoids
+the needless allocation of resources used in an intermediary representation. When using strings for innerHTML, the
+browser can often parse and render a DOM string with submillisecond performance. These strings can be verified for
+correctness at compile time using a tool like the webpack
+JSX compiler or type-level string validation in languages
+like Haskell, Idris and PureScript.
+Furthermore, as the rendering only happens once upon initial render, changes to the DOM have do not require diffng
+or re-rendering nodes themselves, which leads to significant
+performance gains over VDOM frameworks like React.
 
-\subsection{Citations}
-Citations to articles \cite{bowman:reasoning,
-clark:pct, braams:babel, herlihy:methodology},
-conference proceedings \cite{clark:pct} or
-books \cite{salas:calculus, Lamport:LaTeX} listed
-in the Bibliography section of your
-article will occur throughout the text of your article.
-You should use BibTeX to automatically produce this bibliography;
-you simply need to insert one of several citation commands with
-a key of the item cited in the proper location in
-the \texttt{.tex} file \cite{Lamport:LaTeX}.
-The key is a short reference you invent to uniquely
-identify each work; in this sample document, the key is
-the first author's surname and a
-word from the title.  This identifying key is included
-with each item in the \texttt{.bib} file for your article.
+\subsubsection{Reactive}
 
-The details of the construction of the \texttt{.bib} file
-are beyond the scope of this sample document, but more
-information can be found in the \textit{Author's Guide},
-and exhaustive details in the \textit{\LaTeX\ User's
-Guide}\cite{Lamport:LaTeX}.
+SDOM web apps that follow Freeman's original design are
+reactive with the major caveat that the nodes themselves
+cannot change (we will loosen this restriction later when discussing incremental functions). The individual nodes, then,
+are subscribed to event listeners, which funnel DOM events
+like clicks and timers down to the nodes.
+The restriction that the DOM must be static is what allows this event-based approach to work. Without a static
+DOM, elements could be removed and added at-will, and
+there would be no certainty that an event would reach its
+destination. This would make web apps very extremely fragile, as the presence or absence of nodes could not be guaranteed. For example, an NFT service that relies on the delivery
+of a digital asset to a buyer could not be certain that the
+node in which the asset is displayed is actually present. The
+static nature of the DOM solves this problem
 
-This article shows only the plainest form
-of the citation command, using \texttt{{\char'134}cite}.
-This is what is stipulated in the SIGS style specifications.
-No other citation format is endorsed or supported.
+\subsection{Functional reactive programming}
 
-\subsection{Tables}
-Because tables cannot be split across pages, the best
-placement for them is typically the top of the page
-nearest their initial cite.  To
-ensure this proper ``floating'' placement of tables, use the
-environment \textbf{table} to enclose the table's contents and
-the table caption.  The contents of the table itself must go
-in the \textbf{tabular} environment, to
-be aligned properly in rows and columns, with the desired
-horizontal and vertical rules.  Again, detailed instructions
-on \textbf{tabular} material
-is found in the \textit{\LaTeX\ User's Guide}.
+When implemented poorly, the SDOM approach has the
+potential to inherit the same performance limitations of
+VDOM: instead of traversing a large arboreal data structure to construct a diff, one winds up traversing a large arboreal data structure to dispatch an event to all of the nodes
+that may need it. Functional reactive programming[12], or FRP, is a way to solve this problem. By performing automatic memoization and providing map-reduce algorithms
+for time-series data, functional reactive programming eliminates redundant computations. There is an emerging body
+of literature on functional-reactive programming as applied
+to web programming, audio and specifically Web Audio[9]
+to which the reader can refer for more definitions of fundamental FRP primitives.
 
-Immediately following this sentence is the point at which
-Table 1 is included in the input file; compare the
-placement of the table here with the table in the printed
-dvi output of this document.
+Another important aspect of FRP is its ability to preserve
+state. It can do this in three ways:
+\begin{itemize}
+\item The Behavior type can be used by an event to poll
+the state of an external entity, like a random-number
+generator or whether report, when the event is fired.
+\item The fold operation can be used to update an initial
+state whenever an event is fired. This is the cornerstone operation of The Elm Architecture.
+\item The fix combinator is used to feed event data back
+into itself. When done properly, fix can be used to
+model differential equations and debouncing.
+\end{itemize}
+Because state can be added ad-hoc at any point in the
+event chain, it adds a powerful mechanism to localize state
+to only the nodes in an SDOM that need it.
 
-\begin{table}
-\centering
-\caption{Frequency of Special Characters}
-\begin{tabular}{|c|c|l|} \hline
-Non-English or Math&Frequency&Comments\\ \hline
-\O & 1 in 1,000& For Swedish names\\ \hline
-$\pi$ & 1 in 5& Common in math\\ \hline
-\$ & 4 in 5 & Used in business\\ \hline
-$\Psi^2_1$ & 1 in 40,000& Unexplained usage\\
-\hline\end{tabular}
-\end{table}
+\subsection{Incremental functions}
+The most severe limitation of the SDOM approach is its
+handling of dynamic content. There are two cases where
+this is particularly problematic:
 
-To set a wider table, which takes up the whole width of
-the page's live area, use the environment
-\textbf{table*} to enclose the table's contents and
-the table caption.  As with a single-column table, this wide
-table will ``float" to a location deemed more desirable.
-Immediately following this sentence is the point at which
-Table 2 is included in the input file; again, it is
-instructive to compare the placement of the
-table here with the table in the printed dvi
-output of this document.
+\begin{itemize}
+\item For some services, it is impractical or inefficient to allocate an upper-bound of resources. Event with techniques like DOM recycling for infinite scroll, a large
+DOM tree can cause low-end mobile devices to perform
+poorly, even when very few elements are updated.
+\item Some content, such as that produced by markdown
+parsers, can only be denoted in terms of recursive combinators. This includes:
+\begin{itemize}
+\item lists
+\item \begin{itemize}
+  \item within lists.
+\end{itemize}
+\end{itemize}
+\end{itemize}
+This requires the layout framework itself to be Turing complete, which cannot be achieved by the SDOM
+approach as presented thus far.
+One solution to this problem is the incremental lambda
+calculus[1], which requires functions to be expressed as a series of diffs applied to a base data structure. For example,
+when working with a HashMap, the primitives of the incremental lambda calculus only allow inserting, deleting and
+modifying elements at indices, but one does not have access
+to the map as a whole. Incremental approaches have proved
+effective in modeling dynamic structures in otherwise immutable systems, such as mapping-s in Ethereum's Solidity
+language.
+Applying the incremental lambda calculus to SDOM, one
+can use an indexed hash map to create and destroy internal SDOMs that have their own event logic and subscribers.
+This adds the overhead of keeping track of what indices are present and which ones are absent, but this can be accomplished by the fold and fix primitives mentioned in the last
+section and can be accomplished in \textit{O(1)} amortized time
+when using an efficient hash map implementation.
 
+\subsection{SDOM in industry}
 
-\begin{table*}
-\centering
-\caption{Some Typical Commands}
-\begin{tabular}{|c|c|l|} \hline
-Command&A Number&Comments\\ \hline
-\texttt{{\char'134}alignauthor} & 100& Author alignment\\ \hline
-\texttt{{\char'134}numberofauthors}& 200& Author enumeration\\ \hline
-\texttt{{\char'134}table}& 300 & For tables\\ \hline
-\texttt{{\char'134}table*}& 400& For wider tables\\ \hline\end{tabular}
-\end{table*}
-% end the environment with {table*}, NOTE not {table}!
+The SDOM approach was first articulated by Phil Freeman in 2018. Separate from Freeman's work, the first
+industry-grade SDOM framework, SolidJS[2], began in late
+2018 and, as of the writing of this article in April 2022, is
+the most popular and one of the most performant SDOM
+frameworks. Other frameworks that occupy the declarative+performant area of the web-framework trifecta, like
+Svelte and Hugo, have incorporated ideas from the SDOM
+approach into their implementations as well.
 
-\subsection{Figures}
-Like tables, figures cannot be split across pages; the
-best placement for them
-is typically the top or the bottom of the page nearest
-their initial cite.  To ensure this proper ``floating'' placement
-of figures, use the environment
-\textbf{figure} to enclose the figure and its caption.
+\section{SDOM and Web Audio}
 
-This sample document contains examples of \textbf{.eps} files to be
-displayable with \LaTeX.  If you work with pdf\LaTeX, use files in the
-\textbf{.pdf} format.  Note that most modern \TeX\ system will convert
-\textbf{.eps} to \textbf{.pdf} for you on the fly.  More details on
-each of these is found in the \textit{Author's Guide}.
+At first glance, the SDOM approach seems ideally suited
+to web audio. Audio graphs change relatively infrequently,
+their nodes respond to events, and the nodes themselves
+are not referentially transparent. In applications that need
+dynamic and recursively-defined content, incremental functions over indexed structures can be used to update the audio graph. However, there are four main issues that exist in
+web audio that are not addressed by the SDOM approach:
 
-\begin{figure}
-\centering
-\includegraphics{fly}
-\caption{A sample black and white graphic.}
-\end{figure}
+\begin{itemize}
+\item One-to-many relationships.
+\item Feedback loops.
+\item Leaking referentially-opaque nodes.
+\item Live-coding and other dynamic arts.
+\end{itemize}
+The following section proposes solutions to all four issues.
+It does so in JavaScript pseudocode, occasionally employing
+TypeScript-esque syntax when explicit types are necessary.
 
-\begin{figure}
-\centering
-\includegraphics[height=1in, width=1in]{fly}
-\caption{A sample black and white graphic
-that has been resized with the \texttt{includegraphics} command.}
-\end{figure}
+\subsection{One-to-many relationships}
 
+In the DOM, a node can only ever have one parent. In Web Audio, however, a node can be connected to many outgoing
+nodes as an audio or control signal. One way to articulate
+this relationship in the SDOM style is to use a fan operation
+that injects an opaque blob into a closure where it can be
+used 0 or more times.
 
-As was the case with tables, you may want a figure
-that spans two columns.  To do this, and still to
-ensure proper ``floating'' placement of tables, use the environment
-\textbf{figure*} to enclose the figure and its caption.
-and don't forget to end the environment with
-{figure*}, not {figure}!
+\begin{verbatim}
+var node =
+  fan(sawtoothOsc(440.0), (osc) =>
+    gain(bandpass(1000.0, osc)
+        , highpass(3000.0, osc)))
+\end{verbatim}
 
-\begin{figure*}
-\centering
-\includegraphics{flies}
-\caption{A sample black and white graphic
-that needs to span two columns of text.}
-\end{figure*}
+In the example above, osc is injected into the function
+at the moment of interpretation. This makes it possible
+to use in a purely-functional context that expects referential
+transparency: as there is no way to construct the node aside
+from its opaque representation, it is the equivalent of a unary
+constructor like Unit in Haskell, Scala and PureScript.
 
+\subsection{Feedback}
 
-%\begin{figure}
-%\centering
-%\includegraphics[height=1in, width=1in]{rosette}
-%\caption{A sample black and white graphic that has
-%been resized with the \texttt{includegraphics} command.}
-%\vskip -6pt
-%\end{figure}
+Feedback in an SDOM Web Audio representation can be
+handled in the same manner that it is in FRP: via a fixedpoint combinator.
+\begin{verbatim}
+var node =
+  fix((node) =>
+    gain(sinOsc(440.0)
+      , highpass(1000.0, delay(0.2, node))))
+\end{verbatim}
+As with fan, fix is an opaque blob that is provided by the
+interpreting library at the moment of function evaluation.
+An issue arises in attributing unique IDs to the
+recursively-defined node, as the ID attributed to the return
+value will also have to be attributed to the input node.
+This is a classic problem when working with De Bruijn
+indices, and it can be solved by a deferred naming strategy: if an audio node in the underlying engine is defined as
+(id) => node, then the same ID can be given to the input
+and output nodes once the function has been evaluated.
+\begin{verbatim}
+var fix = (f) => {
+  var id = Math.random();
+  var i = mkNode(id);
+  var out = f(i);
+  return out(id);
+}
+\end{verbatim}
+A problem still exists with the connecting of nodes in a
+final encoding, as certain nodes will not yet be created at
+the moment of connection, but it is possible for the final
+encoding to defer the connection of nodes until both ends of
+the connection have been created.
 
-\subsection{Theorem-like Constructs}
-Other common constructs that may occur in your article are
-the forms for logical constructs like theorems, axioms,
-corollaries and proofs.  There are
-two forms, one produced by the
-command \texttt{{\char'134}newtheorem} and the
-other by the command \texttt{{\char'134}newdef}; perhaps
-the clearest and easiest way to distinguish them is
-to compare the two in the output of this sample document:
+\subsection{Referential transparency}
 
-This uses the \textbf{theorem} environment, created by
-the\linebreak\texttt{{\char'134}newtheorem} command:
-\newtheorem{theorem}{Theorem}
-\begin{theorem}
-Let $f$ be continuous on $[a,b]$.  If $G$ is
-an antiderivative for $f$ on $[a,b]$, then
-\begin{displaymath}\int^b_af(t)dt = G(b) - G(a).\end{displaymath}
-\end{theorem}
+Up until now, we have avoided running into issues of referential transparency because the only values that are not
+referentially transparent in our SDOM Web Audio implementation, namely the inputs to fan and fix, are singletons,
+which along with nullary values (ie Void in Haskell) have
+identical representations in opaque and transparent context,
+as they can only be substituted for themselves.
 
-The other uses the \textbf{definition} environment, created
-by the \texttt{{\char'134}newdef} command:
-\newdef{definition}{Definition}
-\begin{definition}
-If $z$ is irrational, then by $e^z$ we mean the
-unique number which has
-logarithm $z$: \begin{displaymath}{\log e^z = z}\end{displaymath}
-\end{definition}
+This issue is problematic, however, for nodes that
+emit events, such as AudioBufferSourceNode and
+OscillatorNode, both of which emit an ended event.
+Imagine the following scenario:
 
-Two lists of constructs that use one of these
-forms is given in the
-\textit{Author's  Guidelines}.
+\begin{verbatim}
+var node =
+  fix((node) =>
+    gain(sinOsc(myFreq
+      , ended(() => push(node)()))));
+\end{verbatim}
 
-There is one other similar construct environment, which is
-already set up
-for you; i.e. you must \textit{not} use
-a \texttt{{\char'134}newdef} command to
-create it: the \textbf{proof} environment.  Here
-is a example of its use:
-\begin{proof}
-Suppose on the contrary there exists a real number $L$ such that
-\begin{displaymath}
-\lim_{x\rightarrow\infty} \frac{f(x)}{g(x)} = L.
-\end{displaymath}
-Then
-\begin{displaymath}
-l=\lim_{x\rightarrow c} f(x)
-= \lim_{x\rightarrow c}
-\left[ g{x} \cdot \frac{f(x)}{g(x)} \right ]
-= \lim_{x\rightarrow c} g(x) \cdot \lim_{x\rightarrow c}
-\frac{f(x)}{g(x)} = 0\cdot L = 0,
-\end{displaymath}
-which contradicts our assumption that $l\neq 0$.
-\end{proof}
+In the sinOsc's event listener for the ended event, we have
+now pushed a referentially opaque reference to a gain node.
+This reference can be consumed by any event subscription
+and can be used, for example, in another audio graph's definition. As the other audio graph belongs to a different
+context, it would break at the moment of instantiation.
 
-Complete rules about using these environments and using the
-two different creation commands are in the
-\textit{Author's Guide}; please consult it for more
-detailed instructions.  If you need to use another construct,
-not listed therein, which you want to have the same
-formatting as the Theorem
-or the Definition\cite{salas:calculus} shown above,
-use the \texttt{{\char'134}newtheorem} or the
-\texttt{{\char'134}newdef} command,
-respectively, to create it.
+The solution to this problem is to use existential typing to ``lock'' nodes into a context. Existential types[7], or
+rank-N types, are a zero-cost abstraction that establishes a
+closed computational context in strongly-typed languages.
+In dynamically-typed languages like JavaScript this is impossible, so we'll use TypeScript pseudocode to express this
+idea.
 
-\subsection*{A {\secit Caveat} for the \TeX\ Expert}
-Because you have just been given permission to
-use the \texttt{{\char'134}newdef} command to create a
-new form, you might think you can
-use \TeX's \texttt{{\char'134}def} to create a
-new command: \textit{Please refrain from doing this!}
-Remember that your \LaTeX\ source code is primarily intended
-to create camera-ready copy, but may be converted
-to other forms -- e.g. HTML. If you inadvertently omit
-some or all of the \texttt{{\char'134}def}s recompilation will
-be, to say the least, problematic.
+\begin{verbatim}
+type Node<A> = {
+  id: number;
+}
+type Run =
+  (node: <A>( : Node<A>) => Audio)
+    => Audio
+\end{verbatim}
 
-\section{Conclusions}
-This paragraph will end the body of this sample document.
-Remember that you might still have Acknowledgments or
-Appendices; brief samples of these
-follow.  There is still the Bibliography to deal with; and
-we will make a disclaimer about that here: with the exception
-of the reference to the \LaTeX\ book, the citations in
-this paper are to articles which have nothing to
-do with the present subject and are used as
-examples only.
-%\end{document}  % This is where a 'short' article might terminate
+Now, all nodes passed to Run must be polymorphic over a
+phantom type A, which means that it cannot be specialized:
+it needs to remain universally quantified. Trying to pass in
+a node from another context will not work because it will,
+by definition, be specialized to the scope of the universal
+quantifier from another context. This is also called a Skolem
+variable escaping its scope and occurs when a quantified
+variable from a statement in Skolem-normal form[5] is used
+in another statement. For example, if you say ``All Z like
+treats'' and ``All Z like to play'' and agree that Z is not a
+concrete type but a variable to be determined later, the two
+Z's cannot be mutually interchanged because their scopes
+are different and they could wind up being instantiated with
+different entities.
 
-%ACKNOWLEDGMENTS are optional
+This technique of using existential quantification to create
+a closed computational context is most commonly used in
+the ST monad from Haskell[10] and PureScript, which uses
+a similar approach to create type-safe mutable references.
+
+\subsection{Live coding}
+
+As mentioned before, incremental functions provide a way
+to inject dynamic behavior into an SDOM approach, and the
+same technique can be used for an SDOM-ified Web Audio.
+However, the functions fan and fix result in a situation
+where the nodes used therein are hermetically sealed within
+their closures. That means that if, for example, one is performing a live-coding set, it is impossible to connect a node
+from closure A to closure B, whereas in an imperative-style
+language like SuperCollider this is not a problem.
+
+The solution to this problem is to create a referentially
+opaque node that is itself an event and to attach a selfEvent
+to every node that, when triggered, pushes a reference to the
+node to enclosing event. Every time a new node is supplied
+to the event, the previous node (if there was one) is disconnected and the new node is connected.
+
+\begin{verbatim}
+var node =
+  event((node, push) =>
+    gain(sinOsc(440.0
+      , selfEvent(push)
+      , ended(() => push(node)))));
+\end{verbatim}
+
+\section{Benchmarks}
+To benchmark the SDOM approach to Web Audio, I used
+purescript-ocarina, a PureScript Web Audio library designed
+using SDOM principles, and ToneJS[6]. ToneJS occupies
+the performant+reactive part of the DOM trifecta at the
+expense of not being declarative.
+
+\subsection{Benchmark design}
+As ocarina's design decisions occupy the declarative+performant part of the design space and uses
+the SDOM design pattern to achieve high reactivity, it was
+important to design a highly reactive experiment. As such,
+in this experiment, I created an event every 0.25 seconds
+that triggered 90 reactive events (turning on an oscillator,
+triggering an ADSR envelope, and turning off an oscillator)
+in both frameworks to stress test reactivity.
+
+\subsection{Tone.js}
+\begin{verbatim}
+const n = 30;
+const gainNodes =
+  Array.from(Array(n).keys())
+   .map(()=>newTone.Gain(0.002)
+  .toDestination());
+const oscs=
+  Array.from(Array(n).keys())
+   .map((i)=>
+     newTone.Oscillator(440.0+i*80)
+      .connect(gainNodes[i]));
+Tone.Transport.scheduleRepeat((time)=>{
+ for(var i=0;i<n;i++) {
+  oscs[i].start(time).stop(time+0.1);
+ }
+},"8n");
+Tone.Transport.start();
+\end{verbatim}
+\subsection{PureScript Ocarina}
+\begin{verbatim}
+music time=do
+let
+  e0=adsr<<<add 0.03
+  oon=bangOn'
+  oof=bangOff'<<<add 0.22
+  [gain1.0
+  (map(\i->gain 0.0 (map e0 time)
+  [sinOsc(toNumber i*80.0+440.0)
+  (keepLatest$map(oneOf
+  <$>sequence[oon,oof])time)])
+  (0..29))
+  ]
+myIvl<-memoize
+  $ interval ctx 0.25
+  $ bang 0.25
+run2 ctx (music myIvl)
+\end{verbatim}
+\subsection{Benchmark results}
+The benchmarking was run 10 times over roughly 10 second intervals. Wags occupies on average 1.37
+This shows that Wags, coming from a position of being
+performant and declarative, is able to achieve high reactivity in a reasonable number of lines of code and excellent
+performance.
+\section{Conclusion}
+In this article, the SDOM approach of web application
+development was presented and applied to the Web Audio domain. In doing so, the article proposed solutions to
+several shortcomings of the SDOM approach and provided
+benchmarks against an industry leading framework, ToneJS.
+Further avenues of research can explore applying this approach to the DSP graph itself as well as using nested and
+recursively-defined events to create more dynamic and expressive audio graphs.
 \section{Acknowledgments}
-This section is optional; it is a location for you
-to acknowledge grants, funding, editing assistance and
-what have you.  In the present case, for example, the
-authors would like to thank Gerald Murray of ACM for
-his help in codifying this \textit{Author's Guide}
-and the \textbf{.cls} and \textbf{.tex} files that it describes.
-
+I'd like to thank Phil Freeman for his work on the \texttt{purview},
+\texttt{sdom}, \texttt{event} and \texttt{behavior} libraries in the PureScript ecosystem, without which I would have never thunk the thoughts
+that fueled the writing of this article.
 %
 % The following two commands are all you need in the
 % initial runs of your .tex file to
